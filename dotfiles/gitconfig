@@ -1,0 +1,5 @@
+[user]
+	email = cwaldbieser@gmail.com
+	name = cwaldbieser
+[core]
+	editor = /usr/bin/nvim

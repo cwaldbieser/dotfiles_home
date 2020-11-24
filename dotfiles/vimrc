@@ -1,0 +1,176 @@
+" Configure tab expansion to be 4 spaces.
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Python support
+let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
+
+" Plugin support.
+"
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.config/nvim/')
+" `gruvbox` color scheme
+Plug 'morhetz/gruvbox'
+" `deoplete` autocompletion
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+" deoplete-jedi
+Plug 'zchee/deoplete-jedi'
+" jedi-vim for go-to-source capabilities.
+Plug 'davidhalter/jedi-vim'
+" airline - status line enhancement
+Plug 'vim-airline/vim-airline'
+" NERDcomment
+Plug 'preservim/nerdcommenter'
+" Initialize plugin system
+" NERDtree - file manager
+Plug 'preservim/nerdtree'
+" Neomake - for code linting
+Plug 'neomake/neomake'
+" vim-unimpared - shortcuts for paired operations like :lnext/:lprev
+Plug 'tpope/vim-unimpaired'
+" neoformat - code formatter
+Plug 'sbdchd/neoformat'
+" FZF
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" Git Fugitive
+Plug 'tpope/vim-fugitive'
+call plug#end()
+
+" deoplete plugin configuration
+" - automatically close preview window.
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
+let g:deoplete#sources#jedi#show_docstring = 1
+
+" jedi-vim
+" - disable autocompletion, because we use deoplete for completion
+let g:jedi#completions_enabled = 0
+" - open the go-to function in split, not another buffer
+let g:jedi#use_splits_not_buffers = "right"
+
+" Neomake
+let g:neomake_python_enabled_makers = ['flake8']
+" - When writing a buffer (no delay), and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+" Open the locallist / quickfix list when errors/warnings detected.
+let g:neomake_open_list=2
+" - Use a specifc python with flake8 installed.
+let g:neomake_python_flake8_maker = {
+  \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/flake8',
+  \ 'args': ['--format=default', '--max-line-length', '95'],
+  \ 'errorformat':
+      \ '%E%f:%l: could not compile,%-Z%p^,' .
+      \ '%A%f:%l:%c: %t%n %m,' .
+      \ '%A%f:%l: %t%n %m,' .
+      \ '%-G%.%#',
+  \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess')
+  \ }
+
+" Neoformat
+" - Forgo using yapf as my Python formatter; *black* is the new black.
+"let g:neoformat_python_yapf = {
+"    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/yapf'
+"    \ }
+let g:neoformat_python_black = {
+    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/black',
+    \ 'stdin': 1,
+    \ 'args': ['-q', '-']
+    \ }
+let g:neoformat_python_isort = {
+    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/isort',
+    \ 'stdin': 1,
+    \ 'args': ['-', '--quiet']
+    \ }
+" Set JSON indent level to 4.
+let g:neoformat_json_jq = {
+    \ 'exe': 'jq',
+    \ 'stdin': 1,
+    \ 'args': ['--indent', '4', '.']
+    \ }
+" - Enabled formatters for Python
+let g:neoformat_enabled_python = ['black', 'isort']
+" Run black *and* isort.
+let g:neoformat_run_all_formatters = 1
+" SQL formatter
+let g:neoformat_sql_sqlformat = {
+    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/sqlformat',
+    \ 'stdin': 1,
+    \ 'args': ['--reindent', '-'],
+    \ }
+
+" Filetype detection
+filetype plugin on
+
+" Relative number
+set rnu
+set nu
+
+" Set color scheme.
+colorscheme industry
+
+" Remap CTRL-w to Leader-w.
+nnoremap <Leader>w <C-w>
+
+" Allow switching buffers when there are unsaved changes.
+set hidden
+
+" No highlighting all matching searches, please.
+set nohls
+
+" Mappings for working with terminal mode.
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <M-[> <Esc>
+    tnoremap <C-v><Esc> <Esc>
+    tnoremap <Leader><Esc> <Esc>
+endif
+
+if has('nvim')
+    " Terminal mode:
+    tnoremap <M-h> <c-\><c-n><c-w>h
+    tnoremap <M-j> <c-\><c-n><c-w>j
+    tnoremap <M-k> <c-\><c-n><c-w>k
+    tnoremap <M-l> <c-\><c-n><c-w>l
+    " Insert mode:
+    inoremap <M-h> <Esc><c-w>h
+    inoremap <M-j> <Esc><c-w>j
+    inoremap <M-k> <Esc><c-w>k
+    inoremap <M-l> <Esc><c-w>l
+    " Visual mode:
+    vnoremap <M-h> <Esc><c-w>h
+    vnoremap <M-j> <Esc><c-w>j
+    vnoremap <M-k> <Esc><c-w>k
+    vnoremap <M-l> <Esc><c-w>l
+    " Normal mode:
+    nnoremap <M-h> <c-w>h
+    nnoremap <M-j> <c-w>j
+    nnoremap <M-k> <c-w>k
+    nnoremap <M-l> <c-w>l
+endif
+
+" Cycle through buffers
+:nnoremap <S-Tab> :bnext<CR>
+
+" Fzf shortcut
+nnoremap <Leader>f :Files<CR>
+
+" Visual cues for my current position.
+" - Make the current line number stand out from the relative line numbers.
+hi CursorLineNR cterm=bold ctermbg=234 gui=bold guibg=#202020
+" Toggle crosshairs.
+nnoremap <f2> :set cursorcolumn! <bar> set cursorline! <CR>
+"  Make spelling errors stand out even when row is highlighted.
+hi SpellBad cterm=underline
+" Toggle colorcolumn on/off.
+nnoremap <f3> :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
+hi ColorColumn cterm=bold ctermbg=darkgrey gui=bold guibg=#202020
