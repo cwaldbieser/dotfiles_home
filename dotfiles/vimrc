@@ -45,6 +45,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Git Fugitive
 Plug 'tpope/vim-fugitive'
+" Nord colorscheme
+Plug 'arcticicestudio/nord-vim'
+" Spaceduck colorscheme
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 call plug#end()
 
 " deoplete plugin configuration
@@ -115,9 +119,6 @@ filetype plugin on
 set rnu
 set nu
 
-" Set color scheme.
-colorscheme industry
-
 " Remap CTRL-w to Leader-w.
 nnoremap <Leader>w <C-w>
 
@@ -174,3 +175,12 @@ hi SpellBad cterm=underline
 " Toggle colorcolumn on/off.
 nnoremap <f3> :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
 hi ColorColumn cterm=bold ctermbg=darkgrey gui=bold guibg=#202020
+
+" Set color scheme.
+if exists("+termguicolors")
+    set termguicolors
+    colorscheme nord
+else
+    set notermguicolors
+    colorscheme industry
+endif
