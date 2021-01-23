@@ -12,8 +12,6 @@ let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.config/nvim/')
-" `gruvbox` color scheme
-Plug 'morhetz/gruvbox'
 " `deoplete` autocompletion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -45,10 +43,16 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Git Fugitive
 Plug 'tpope/vim-fugitive'
-" Nord colorscheme
+" Jinja2 syntax highlighing.
+Plug 'glench/vim-jinja2-syntax'
+" " Colorschemes
 Plug 'arcticicestudio/nord-vim'
-" Spaceduck colorscheme
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'morhetz/gruvbox'
+" " Colorscheme switcher.
+Plug 'xolox/vim-misc' 
+Plug 'xolox/vim-colorscheme-switcher' 
+"
 call plug#end()
 
 " deoplete plugin configuration
@@ -175,7 +179,8 @@ hi SpellBad cterm=underline
 " Toggle colorcolumn on/off.
 nnoremap <f3> :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
 hi ColorColumn cterm=bold ctermbg=darkgrey gui=bold guibg=#202020
-
+" Toggle termguicolors
+nnoremap <f4> :set termguicolors!<CR>
 " Set color scheme.
 if exists("+termguicolors")
     set termguicolors
@@ -184,3 +189,9 @@ else
     set notermguicolors
     colorscheme industry
 endif
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>"endif
+
+" On my terminal, <s-f8> produces <f20>
+nmap <f20> <s-f8>
+
