@@ -118,8 +118,8 @@ fi
 
 # my customizations
 
-EDITOR=/usr/bin/nvim
-VISUAL=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
 
 . /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
