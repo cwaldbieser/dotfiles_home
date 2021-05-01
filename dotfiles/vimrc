@@ -69,7 +69,8 @@ let g:jedi#use_splits_not_buffers = "right"
 
 " Neomake
 let g:neomake_python_enabled_makers = ['flake8']
-" - When writing a buffer (no delay), and on normal mode changes (after 750ms).
+" - When writing a buffer (no delay), and on normal mode changes (after
+"   750ms).
 call neomake#configure#automake('nw', 750)
 " Open the locallist / quickfix list when errors/warnings detected.
 let g:neomake_open_list=2
@@ -192,4 +193,15 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>"endif
 
 " On my terminal, <s-f8> produces <f20>
 nmap <f20> <s-f8>
+
+" Map Neomake and Neoformat to shortcuts.
+nnoremap <f6> :Neomake <CR>
+nnoremap <f7> :Neoformat <CR>
+
+" Map spellchecking toggle
+nnoremap <f9> :setlocal spell! <CR>
+
+" Remap jk to ESC
+inoremap jk <esc>
+inoremap <esc> <nop>
 
