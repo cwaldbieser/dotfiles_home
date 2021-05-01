@@ -12,6 +12,8 @@ let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.config/nvim/')
+" `gruvbox` color scheme
+Plug 'morhetz/gruvbox'
 " `deoplete` autocompletion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -45,14 +47,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 " Jinja2 syntax highlighing.
 Plug 'glench/vim-jinja2-syntax'
-" " Colorschemes
+" Colorschemes
 Plug 'arcticicestudio/nord-vim'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'morhetz/gruvbox'
-" " Colorscheme switcher.
-Plug 'xolox/vim-misc' 
-Plug 'xolox/vim-colorscheme-switcher' 
-"
+" Colorscheme switcher.
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-colorscheme-switcher'
 call plug#end()
 
 " deoplete plugin configuration
@@ -85,10 +86,9 @@ let g:neomake_python_flake8_maker = {
   \ }
 
 " Neoformat
-" - Forgo using yapf as my Python formatter; *black* is the new black.
-"let g:neoformat_python_yapf = {
-"    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/yapf'
-"    \ }
+" Global settings.
+let g:neoformat_run_all_formatters = 1
+" Language-specific
 let g:neoformat_python_black = {
     \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/black',
     \ 'stdin': 1,
@@ -99,16 +99,14 @@ let g:neoformat_python_isort = {
     \ 'stdin': 1,
     \ 'args': ['-', '--quiet']
     \ }
+" - Enabled formatters for Python
+let g:neoformat_enabled_python = ['black', 'isort']
 " Set JSON indent level to 4.
 let g:neoformat_json_jq = {
     \ 'exe': 'jq',
     \ 'stdin': 1,
     \ 'args': ['--indent', '4', '.']
     \ }
-" - Enabled formatters for Python
-let g:neoformat_enabled_python = ['black', 'isort']
-" Run black *and* isort.
-let g:neoformat_run_all_formatters = 1
 " SQL formatter
 let g:neoformat_sql_sqlformat = {
     \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/sqlformat',
