@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -123,7 +123,7 @@ export VISUAL=/usr/bin/nvim
 
 . /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-function set-title() {
+set_title() {
   if [[ -z "$ORIG" ]]; then
     ORIG=$PS1
   fi
@@ -155,4 +155,7 @@ alias vim=nvim
 export PATH="/home/carl/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# pipenv
+export PIPENV_VENV_IN_PROJECT=1
 

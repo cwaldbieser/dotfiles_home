@@ -4,7 +4,8 @@ set shiftwidth=4
 set expandtab
 
 " Python support
-let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
+" let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
+let g:python3_host_prog = '/home/carl/.pyvenvs/neovim39/.venv/bin/python'
 
 " Plugin support.
 "
@@ -54,6 +55,8 @@ Plug 'morhetz/gruvbox'
 " Colorscheme switcher.
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-colorscheme-switcher'
+" Easymotion
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 " deoplete plugin configuration
@@ -76,7 +79,7 @@ call neomake#configure#automake('nw', 750)
 let g:neomake_open_list=2
 " - Use a specifc python with flake8 installed.
 let g:neomake_python_flake8_maker = {
-  \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/flake8',
+  \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/flake8',
   \ 'args': ['--format=default', '--max-line-length', '95'],
   \ 'errorformat':
       \ '%E%f:%l: could not compile,%-Z%p^,' .
@@ -91,12 +94,12 @@ let g:neomake_python_flake8_maker = {
 let g:neoformat_run_all_formatters = 1
 " Language-specific
 let g:neoformat_python_black = {
-    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/black',
+    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/black',
     \ 'stdin': 1,
     \ 'args': ['-q', '-']
     \ }
 let g:neoformat_python_isort = {
-    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/isort',
+    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/isort',
     \ 'stdin': 1,
     \ 'args': ['-', '--quiet']
     \ }
@@ -110,7 +113,7 @@ let g:neoformat_json_jq = {
     \ }
 " SQL formatter
 let g:neoformat_sql_sqlformat = {
-    \ 'exe': '/home/carl/.virtualenvs/nvimenv/bin/sqlformat',
+    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/sqlformat',
     \ 'stdin': 1,
     \ 'args': ['--reindent', '-'],
     \ }
@@ -203,5 +206,4 @@ nnoremap <f9> :setlocal spell! <CR>
 
 " Remap jk to ESC
 inoremap jk <esc>
-inoremap <esc> <nop>
 
