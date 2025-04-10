@@ -3,121 +3,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" Python support
-" let g:python3_host_prog = '/home/carl/.virtualenvs/nvimenv/bin/python'
-let g:python3_host_prog = '/home/carl/.pyvenvs/neovim39/.venv/bin/python'
-
-" Plugin support.
-"
-" Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.config/nvim/')
-" `gruvbox` color scheme
-Plug 'morhetz/gruvbox'
-" `deoplete` autocompletion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
-" deoplete-jedi
-Plug 'zchee/deoplete-jedi'
-" jedi-vim for go-to-source capabilities.
-Plug 'davidhalter/jedi-vim'
-" airline - status line enhancement
-Plug 'vim-airline/vim-airline'
-" NERDcomment
-Plug 'preservim/nerdcommenter'
-" Initialize plugin system
-" NERDtree - file manager
-Plug 'preservim/nerdtree'
-" Neomake - for code linting
-Plug 'neomake/neomake'
-" vim-unimpared - shortcuts for paired operations like :lnext/:lprev
-Plug 'tpope/vim-unimpaired'
-" neoformat - code formatter
-Plug 'sbdchd/neoformat'
-" FZF
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" Git Fugitive
-Plug 'tpope/vim-fugitive'
-" Jinja2 syntax highlighing.
-Plug 'glench/vim-jinja2-syntax'
-" Colorschemes
-Plug 'arcticicestudio/nord-vim'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
-Plug 'morhetz/gruvbox'
-" Colorscheme switcher.
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-colorscheme-switcher'
-" Easymotion
-Plug 'easymotion/vim-easymotion'
-call plug#end()
-
-" deoplete plugin configuration
-" - automatically close preview window.
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
-let g:deoplete#sources#jedi#show_docstring = 1
-
-" jedi-vim
-" - disable autocompletion, because we use deoplete for completion
-let g:jedi#completions_enabled = 0
-" - open the go-to function in split, not another buffer
-let g:jedi#use_splits_not_buffers = "right"
-
-" Neomake
-let g:neomake_python_enabled_makers = ['flake8']
-" - When writing a buffer (no delay), and on normal mode changes (after
-"   750ms).
-call neomake#configure#automake('nw', 750)
-" Open the locallist / quickfix list when errors/warnings detected.
-let g:neomake_open_list=2
-" - Use a specifc python with flake8 installed.
-let g:neomake_python_flake8_maker = {
-  \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/flake8',
-  \ 'args': ['--format=default', '--max-line-length', '95'],
-  \ 'errorformat':
-      \ '%E%f:%l: could not compile,%-Z%p^,' .
-      \ '%A%f:%l:%c: %t%n %m,' .
-      \ '%A%f:%l: %t%n %m,' .
-      \ '%-G%.%#',
-  \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess')
-  \ }
-
-" Neoformat
-" Global settings.
-let g:neoformat_run_all_formatters = 1
-" Language-specific
-let g:neoformat_python_black = {
-    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/black',
-    \ 'stdin': 1,
-    \ 'args': ['-q', '-']
-    \ }
-let g:neoformat_python_isort = {
-    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/isort',
-    \ 'stdin': 1,
-    \ 'args': ['-', '--quiet']
-    \ }
-" - Enabled formatters for Python
-let g:neoformat_enabled_python = ['black', 'isort']
-" Set JSON indent level to 4.
-let g:neoformat_json_jq = {
-    \ 'exe': 'jq',
-    \ 'stdin': 1,
-    \ 'args': ['--indent', '4', '.']
-    \ }
-" SQL formatter
-let g:neoformat_sql_sqlformat = {
-    \ 'exe': '/home/carl/.pyvenvs/neovim39/.venv/bin/sqlformat',
-    \ 'stdin': 1,
-    \ 'args': ['--reindent', '-'],
-    \ }
-
 " Filetype detection
 filetype plugin on
 
@@ -134,43 +19,6 @@ set hidden
 " No highlighting all matching searches, please.
 set nohls
 
-" Mappings for working with terminal mode.
-if has('nvim')
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <M-[> <Esc>
-    tnoremap <C-v><Esc> <Esc>
-    tnoremap <Leader><Esc> <Esc>
-endif
-
-if has('nvim')
-    " Terminal mode:
-    tnoremap <M-h> <c-\><c-n><c-w>h
-    tnoremap <M-j> <c-\><c-n><c-w>j
-    tnoremap <M-k> <c-\><c-n><c-w>k
-    tnoremap <M-l> <c-\><c-n><c-w>l
-    " Insert mode:
-    inoremap <M-h> <Esc><c-w>h
-    inoremap <M-j> <Esc><c-w>j
-    inoremap <M-k> <Esc><c-w>k
-    inoremap <M-l> <Esc><c-w>l
-    " Visual mode:
-    vnoremap <M-h> <Esc><c-w>h
-    vnoremap <M-j> <Esc><c-w>j
-    vnoremap <M-k> <Esc><c-w>k
-    vnoremap <M-l> <Esc><c-w>l
-    " Normal mode:
-    nnoremap <M-h> <c-w>h
-    nnoremap <M-j> <c-w>j
-    nnoremap <M-k> <c-w>k
-    nnoremap <M-l> <c-w>l
-endif
-
-" Cycle through buffers
-:nnoremap <S-Tab> :bnext<CR>
-
-" Fzf shortcut
-nnoremap <Leader>f :Files<CR>
-
 " Visual cues for my current position.
 " - Make the current line number stand out from the relative line numbers.
 hi CursorLineNR cterm=bold ctermbg=234 gui=bold guibg=#202020
@@ -183,23 +31,11 @@ nnoremap <f3> :execute "set colorcolumn=" . (&colorcolumn == "" ? "80" : "")<CR>
 hi ColorColumn cterm=bold ctermbg=darkgrey gui=bold guibg=#202020
 " Toggle termguicolors
 nnoremap <f4> :set termguicolors!<CR>
-" Set color scheme.
-if exists("+termguicolors")
-    set termguicolors
-    colorscheme nord
-else
-    set notermguicolors
-    colorscheme industry
-endif
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>"endif
 
 " On my terminal, <s-f8> produces <f20>
 nmap <f20> <s-f8>
-
-" Map Neomake and Neoformat to shortcuts.
-nnoremap <f6> :Neomake <CR>
-nnoremap <f7> :Neoformat <CR>
 
 " Map spellchecking toggle
 nnoremap <f9> :setlocal spell! <CR>

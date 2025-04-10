@@ -11,19 +11,15 @@ dotfiles:
   f_vimrc:
     src: vimrc
     dst: ~/.vimrc
-  f_init.vim:
-    src: config/nvim/init.vim
-    dst: ~/.config/nvim/init.vim
   f_bashrc:
     src: bashrc
     dst: ~/.bashrc
   f_gitconfig:
     src: gitconfig
     dst: ~/.gitconfig
+  d_nvim:
+    src: config/nvim
+    dst: ~/.config/nvim
 profiles:
   mercury:
-    dotfiles:
-    - f_vimrc
-    - f_init.vim
-    - f_bashrc
-    - f_gitconfig
+    dotfiles: [f_vimrc, f_bashrc, f_gitconfig, d_nvim]
