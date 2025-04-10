@@ -2,6 +2,6 @@
 	email = cwaldbieser@gmail.com
 	name = cwaldbieser
 [core]
-	editor = /usr/bin/nvim
+	editor = nvim
 [init]
 	defaultBranch = main
